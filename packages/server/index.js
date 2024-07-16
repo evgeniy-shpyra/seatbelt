@@ -21,3 +21,42 @@ mp.events.add('seatbeltOn', (player) => {
 mp.events.add('playerDeath', (player) => {
   toggleSeatbelt(player, false)
 })
+
+const vehicleHealthStates = {}
+setInterval(() => {
+  const allPlayers = mp.players.toArray()
+  for (const player of allPlayers) {
+    if (!player.vehicle) continue
+
+    const vehicle = player.vehicle
+
+    const platerCarId = `${player.id}-${vehicle.id}`
+    if (!vehicleHealthStates[platerCarId]) {
+      vehicleHealthStates[platerCarId] = {
+        bodyHealth: vehicle.bodyHealth,
+        engineHealth: vehicle.engineHealth,
+      }
+      continue
+    }
+    let prevBodyHealth = vehicleHealthStates[platerCarId].bodyHealth
+    let prevEngineHealth = vehicleHealthStates[platerCarId].engineHealth
+
+    let bodyHealthLoss = prevBodyHealth - vehicle.bodyHealth
+    let engineHealthLoss = prevEngineHealth - vehicle.engineHealth
+
+    if (bodyHealthLoss > 0 || engineHealthLoss > 0) {
+      const isSeatbeltOn = player.getVariable('seatbelt')
+
+      if (isSeatbeltOn) {
+        player.health -= bodyHealthLoss * 0.2
+      } else {
+        player.health -= bodyHealthLoss * 1.2
+      }
+
+      vehicleHealthStates[platerCarId] = {
+        bodyHealth: vehicle.bodyHealth,
+        engineHealth: vehicle.engineHealth,
+      }
+    }
+  }
+})
