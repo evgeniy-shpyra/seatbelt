@@ -1,20 +1,22 @@
 const browser = mp.browsers.new('package://index.html')
 browser.active = false
 
-const canFlyFlag = 32
-
 function handleSafetyBeltOn() {
   mp.events.callRemote('seatbeltOn')
 }
 
+const canFlyFlag = '32'
+const canFlyFlagHash = '0x1913FE4CBF41C463'
 mp.events.add('changeSeatbelt', (isOn) => {
   const player = mp.players.local
   if (isOn) {
-    player.setConfigFlag(canFlyFlag, false)
+    mp.game.invoke(canFlyFlagHash, player.handle, canFlyFlag, false)
+
     browser.active = true
     mp.gui.chat.push(`!{00FF00}Ви пристібнули ремінь безпеки`)
   } else {
-    player.setConfigFlag(canFlyFlag, true)
+    mp.game.invoke(canFlyFlagHash, player.handle, canFlyFlag, true)
+
     browser.active = false
     mp.gui.chat.push(`!{FF0000}Ви відстібнули ремінь безпеки`)
   }
