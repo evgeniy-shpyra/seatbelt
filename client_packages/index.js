@@ -4,7 +4,7 @@ browser.active = false
 const canFlyFlag = 32
 
 function handleSafetyBeltOn() {
-  mp.events.callRemote(seatbeltCommandName)
+  mp.events.callRemote('seatbeltOn')
 }
 
 mp.events.add('changeSeatbelt', (isOn) => {
