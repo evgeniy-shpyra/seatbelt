@@ -1,4 +1,5 @@
 const browser = mp.browsers.new('package://index.html')
+browser.active = false
 
 const canFlyFlag = 32
 
