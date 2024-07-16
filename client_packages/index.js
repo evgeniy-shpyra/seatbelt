@@ -10,9 +10,11 @@ mp.events.add('changeSeatbelt', (isOn) => {
   const player = mp.players.local
   if (isOn) {
     player.setConfigFlag(canFlyFlag, false)
+    browser.active = true
     mp.gui.chat.push(`!{00FF00}Ви пристібнули ремінь безпеки`)
   } else {
     player.setConfigFlag(canFlyFlag, true)
+    browser.active = false
     mp.gui.chat.push(`!{FF0000}Ви відстібнули ремінь безпеки`)
   }
   browser.execute(`toggleSeatbeltIcons(${isOn})`)
