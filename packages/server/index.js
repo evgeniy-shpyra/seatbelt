@@ -9,7 +9,7 @@ function toggleSeatbelt(player, isOn) {
   player.call('changeSeatbelt', [isOn])
 }
 
-mp.events.add('playerExitVehicle', (player) => {
+mp.events.add('playerStartExitVehicle', (player) => {
   toggleSeatbelt(player, false)
 })
 
